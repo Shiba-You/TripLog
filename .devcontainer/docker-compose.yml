@@ -1,0 +1,10 @@
+services:
+  api:
+    volumes:
+      - .:/workspace:cached
+      - claude-config:/root/.claude
+    environment:
+      CLAUDE_CONFIG_DIR: /root/.claude
+
+volumes:
+  claude-config:
