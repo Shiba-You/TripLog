@@ -21,3 +21,5 @@ build/
 
 # Claude Code local settings
 .claude/settings.local.json
+
+web/package-lock.json
