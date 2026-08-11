@@ -1,0 +1,29 @@
+{
+  "name": "TripLog",
+  "dockerComposeFile": ["../docker-compose.yml", "docker-compose.yml"],
+  "service": "api",
+  "workspaceFolder": "/workspace",
+  "shutdownAction": "none",
+  "forwardPorts": [8080, 5005, 5173, 5432, 9000, 9001],
+  "portsAttributes": {
+    "8080": { "label": "api" },
+    "5005": { "label": "api (debug/JDWP)" },
+    "5173": { "label": "web" },
+    "5432": { "label": "postgres" },
+    "9000": { "label": "minio" },
+    "9001": { "label": "minio console" }
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-gradle",
+        "Vue.volar",
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "redhat.vscode-yaml",
+        "anthropic.claude-code"
+      ]
+    }
+  }
+}
