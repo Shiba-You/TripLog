@@ -127,10 +127,10 @@ sequenceDiagram
 ```yaml
 openapi: 3.0.3
 info:
-  title: Trip Log API
+  title: TripLog API
   version: 0.1.0
   description: >-
-    Trip Log のバックエンドAPI。MVPは単一ユーザー・認証なしを基本とするが、
+    TripLog のバックエンドAPI。MVPは単一ユーザー・認証なしを基本とするが、
     自宅サーバをインターネット公開する場合に備え、共有シークレット（APIキー）による
     簡易保護を任意で有効化できる。位置情報は PostGIS で扱い、地図向けの取得系では
     GeoJSON を返す。写真は R2 への署名付きURLアップロードを用いる。
