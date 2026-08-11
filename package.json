@@ -1,0 +1,14 @@
+{
+  "name": "triplog",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "web:dev": "pnpm --filter web dev",
+    "web:build": "pnpm --filter web build",
+    "mobile:start": "pnpm --filter mobile start",
+    "mobile:ios": "pnpm --filter mobile ios",
+    "infra:up": "./scripts/up.sh",
+    "infra:down": "./scripts/down.sh",
+    "infra:health": "./scripts/health.sh"
+  }
+}

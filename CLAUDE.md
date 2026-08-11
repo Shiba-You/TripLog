@@ -8,7 +8,7 @@ TripLog は「旅の軌跡を自動で記録し、地図上にコレクション
 
 ## 現在のフェーズ
 
-本リポジトリは現時点でドキュメント（要件定義・基本設計・画面定義）のみで、アプリケーションコードは未着手。画面/機能ごとに、後述の Spec-Driven Development ワークフロー（specify → plan → tasks → implement）を通じて実装を進めていく。
+ローカル開発インフラ（`docs/domain/01_基本設計/07_基盤設計.md`）に基づき、`api`（Spring Boot） / `web`（Vue） / `mobile`（Expo）の各スケルトンとDocker Compose環境（db/minio）を構築済み。`shared` は未着手。いずれもヘルスチェック等の動作確認のみのスケルトンで、画面固有のビジネスロジックは未実装。画面/機能ごとに、後述の Spec-Driven Development ワークフロー（specify → plan → tasks → implement）を通じて実装を進めていく。
 
 ## 技術スタック
 
@@ -29,7 +29,7 @@ TripLog は「旅の軌跡を自動で記録し、地図上にコレクション
 | AIチャット | Claude API（サーバ経由で中継、キーをクライアントに出さない） |
 | プッシュ通知 | APNs |
 | 認証 | MVPはなし（単一ユーザー）。公開時は `X-API-Key` → 将来 Bearer/JWT |
-| リポジトリ構成 | pnpm workspaces モノレポ（`api` / `mobile` / `web` / `shared`）※未スキャフォールド |
+| リポジトリ構成 | pnpm workspaces モノレポ（`api` / `mobile` / `web` / `shared`）。`shared` は未スキャフォールド |
 
 ## ディレクトリ構成
 
@@ -38,7 +38,11 @@ TripLog は「旅の軌跡を自動で記録し、地図上にコレクション
 - `docs/works/` — 作業状況・進捗メモ（例: Figmaプロトタイプ作成の進捗）
 - `docs/spec/<画面ID>/` — 画面単位の Spec-Driven Development 成果物（`spec.md` / `plan.md` / `tasks.md`）。下記ワークフロー参照
 - `.claude/agents/` — サブエージェント定義（`specify-agent` / `plan-agent` / `tasks-agent` / `implement-agent`）
-- `api` / `mobile` / `web` / `shared` — アプリケーションコード（pnpm workspaces、実装着手時に作成）
+- `scripts/` — インフラ操作スクリプト（`up.sh` / `down.sh` / `health.sh`）。コンテナの起動・停止・ヘルスチェックは以降これらを使う
+- `api` — Spring Bootスケルトン（Gradle, Java 21）
+- `web` — Vue3 + Vite + TypeScript + Tailwindスケルトン
+- `mobile` — Expo + TypeScriptスケルトン（iOS Dev Build/EAS Buildは未セットアップ）
+- `shared` — 未スキャフォールド（型・地図スタイル等の共有コードを配置予定）
 
 ## 実装ワークフロー（Spec-Driven Development）
 
@@ -53,7 +57,15 @@ TripLog は「旅の軌跡を自動で記録し、地図上にコレクション
 
 ## コマンド
 
-現時点でアプリケーションコード（ビルド/テスト/リント対象）は未作成。`api` / `mobile` / `web` のスキャフォールド後、このセクションに実コマンド（例: `pnpm --filter <workspace> build|test|lint`、単一テストの実行方法）を追記すること。リポジトリ構成は pnpm workspaces（`docs/domain/01_基本設計/03_アーキテクチャと技術選定.md`）に従う。
+- インフラ起動: `./scripts/up.sh`（`.env` がなければ `.env.example` からコピーし `docker compose up -d --build`）
+- インフラ停止: `./scripts/down.sh`
+- ヘルスチェック: `./scripts/health.sh`（db/minio/api/web を確認、異常時は非ゼロ終了）
+- Web開発サーバ: `pnpm web:dev`（Docker内でも起動済み。ホストから直接動かす場合に使用）
+- Web型チェック/ビルド: `pnpm web:build`
+- モバイル起動: `pnpm mobile:start`（Expo dev server） / `pnpm mobile:ios`
+- API: コンテナ内で `./gradlew bootRun` が自動起動（ホットリロード）。単体でビルドする場合は `cd api && ./gradlew build`
+
+画面固有のビルド/テスト/リント（各ワークスペースのlint設定等）は、各画面の実装着手時（tasks-agent/implement-agent）に整備しこのセクションへ追記する。
 
 ## ドメイン知識への参照パス
 
