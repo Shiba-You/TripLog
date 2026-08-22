@@ -6,11 +6,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import MapScreen from '../screens/map/MapScreen';
-import TrackingScreenPlaceholder from '../screens/placeholder/TrackingScreenPlaceholder';
+import TrackingScreen from '../screens/tracking/TrackingScreen';
 import TripListScreenPlaceholder from '../screens/placeholder/TripListScreenPlaceholder';
 import PhotoDetailScreenPlaceholder from '../screens/placeholder/PhotoDetailScreenPlaceholder';
 import ExpensesScreenPlaceholder from '../screens/placeholder/ExpensesScreenPlaceholder';
 import SettingsScreenPlaceholder from '../screens/placeholder/SettingsScreenPlaceholder';
+import TripDetailScreenPlaceholder from '../screens/placeholder/TripDetailScreenPlaceholder';
 
 export type MainTabParamList = {
   Map: undefined;
@@ -21,10 +22,12 @@ export type MainTabParamList = {
 
 export type RootStackParamList = {
   MainTabs: undefined;
-  /** AC-33: トラック開始成功後の遷移先（S-002、placeholder） */
+  /** AC-33: トラック開始成功後の遷移先（S-002） */
   Tracking: { trackId: string };
   /** AC-15: 写真ピンタップ時の遷移先（S-005、placeholder） */
   PhotoDetail: { photoId: string };
+  /** S-002 AC-18: 終了確認モーダルで「終了する」選択後の遷移先（S-004、placeholder） */
+  TripDetail: { tripId: string };
 };
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -48,13 +51,18 @@ export default function RootNavigator() {
         <Stack.Screen name="MainTabs" component={MainTabs} />
         <Stack.Screen
           name="Tracking"
-          component={TrackingScreenPlaceholder}
+          component={TrackingScreen}
           options={{ headerShown: true, title: 'トラッキング', presentation: 'modal' }}
         />
         <Stack.Screen
           name="PhotoDetail"
           component={PhotoDetailScreenPlaceholder}
           options={{ headerShown: true, title: '写真詳細' }}
+        />
+        <Stack.Screen
+          name="TripDetail"
+          component={TripDetailScreenPlaceholder}
+          options={{ headerShown: true, title: '旅行詳細' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
