@@ -53,6 +53,22 @@ public class TrackEntity {
         return entity;
     }
 
+    /** S-002 AC-14: 一時停止。 */
+    public void pause() {
+        this.status = "paused";
+    }
+
+    /** S-002 AC-16: 再開。 */
+    public void resume() {
+        this.status = "recording";
+    }
+
+    /** S-002 AC-18: 終了。{@code endedAt} はサーバ側で確定させた値を渡す（plan.md「API契約」参照）。 */
+    public void finish(Instant endedAt) {
+        this.status = "finished";
+        this.endedAt = endedAt;
+    }
+
     public UUID getId() {
         return id;
     }

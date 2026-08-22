@@ -32,3 +32,4 @@ export * from './schemas/coverageSchema';
 export * from './schemas/photoSchema';
 export * from './schemas/trackSchema';
 export * from './schemas/trackPointsFeatureSchema';
+export * from './schemas/trackPointBatchResultSchema';
